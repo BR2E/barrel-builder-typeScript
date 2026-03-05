@@ -2,6 +2,8 @@
 
 **Barrel Builder** is a practical and lightweight extension for Antigravity / VS Code designed to speed up your TypeScript workflow. It allows you to automatically generate barrel files (`index.ts`) containing exports for all the modules within a specific folder.
 
+![Barrel Builder Demo](images/barrel-builder1.png)
+
 ## ✨ Features
 
 * **Fast & Accessible:** Adds a convenient command directly to the File Explorer's context menu (right-click).
