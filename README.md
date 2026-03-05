@@ -39,3 +39,8 @@ There are no known issues at this time.
 ### 0.0.1
 * Initial release of Barrel Builder.
 * Added support for automatic `.ts` file exporting via the Explorer context menu.
+
+## 0.0.2
+* **New Icon**: Updated the extension logo for better visibility.
+* **Compatibility**: Updated publisher casing to match Open VSX namespace.
+* **Docs**: Minor documentation improvements in README.
