@@ -36,6 +36,10 @@ There are no known issues at this time.
 
 ## 📝 Release Notes
 
+### 0.0.4
+* **UI Update**: Changed the command title to **"Generate index.ts (Barrel)"** for better clarity in the context menu.
+* **Documentation**: Added bilingual technical documentation (Spanish/English) following JSDoc standards in the source code.
+
 ### 0.0.3
 * **Category Change**: Updated categories to "Programming Languages" for better discoverability.
 * **Optimization**: Reduced the image size in `README.md` for faster loading in the marketplace.

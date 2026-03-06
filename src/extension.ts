@@ -1,40 +1,64 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+/**
+ * @file barrel-builder.ts
+ * @description Extensión de VS Code para generar archivos "barrel" (index.ts).
+ * VS Code extension to generate "barrel" files (index.ts).
+ */
+
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+/**
+ * Este método se llama cuando se activa la extensión.
+ * This method is called when your extension is activated.
+ * * @param context El contexto de la extensión proporcionado por VS Code.
+ * @param context The extension context provided by VS Code.
+ */
 export function activate(context: vscode.ExtensionContext) {
 
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
+    // Log de diagnóstico inicial / Initial diagnostic log
     console.log('Congratulations, your extension "barrel-builder" is now active!');
 
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with registerCommand
-    // The commandId parameter must match the command field in package.json
+    /**
+     * Registro del comando 'barrel-builder.createBarrel'.
+     * Registration of the 'barrel-builder.createBarrel' command.
+     */
     const disposable = vscode.commands.registerCommand('barrel-builder.createBarrel', (uri: vscode.Uri) => {
         
-        // Validamos que exista la URI (viene del clic derecho en el explorador)
+        /**
+         * Validación: El comando debe ejecutarse desde el menú contextual de una carpeta.
+         * Validation: The command must be run from a folder's context menu.
+         */
         if (!uri || !uri.fsPath) {
-            vscode.window.showErrorMessage('Por favor, ejecuta este comando haciendo clic derecho en una carpeta.');
+            vscode.window.showErrorMessage('Please run this command by right-clicking on a folder / Por favor, ejecute este comando haciendo clic derecho en una carpeta.');
             return;
         }
 
         const folderPath = uri.fsPath;
 
-        // Validamos que el recurso sobre el que se hizo clic sea realmente un directorio
+        /**
+         * Verificamos que la ruta seleccionada sea efectivamente un directorio.
+         * Verify that the selected path is indeed a directory.
+         */
         if (!fs.statSync(folderPath).isDirectory()) {
-            vscode.window.showErrorMessage('Por favor, selecciona una carpeta válida.');
+            vscode.window.showErrorMessage("Please select a valid folder / Por favor, seleccione una carpeta válida.");
             return;
         }
 
         try {
+            // Leer el contenido del directorio / Read directory content
             const files = fs.readdirSync(folderPath);
             
-            // Filtramos archivos .ts, ignorando el propio index.ts y archivos de declaración (.d.ts)
+            /**
+             * Filtramos archivos para exportar:
+             * 1. Deben terminar en .ts
+             * 2. No deben ser el propio index.ts
+             * 3. No deben ser archivos de definición (.d.ts)
+             * * Filter files to export:
+             * 1. Must end in .ts
+             * 2. Must not be index.ts itself
+             * 3. Must not be declaration files (.d.ts)
+             */
             const tsFiles = files.filter(file => 
                 file.endsWith('.ts') && 
                 file !== 'index.ts' && 
@@ -42,29 +66,40 @@ export function activate(context: vscode.ExtensionContext) {
             );
 
             if (tsFiles.length === 0) {
-                vscode.window.showInformationMessage('No se encontraron archivos .ts para exportar en esta carpeta.');
+                vscode.window.showInformationMessage("No .ts files were found / No se encontraron archivos .ts para exportar.");
                 return;
             }
 
-            // Generamos las sentencias de exportación
+            /**
+             * Generamos las sentencias 'export * from './archivo';' para cada archivo.
+             * Generate 'export * from './file';' statements for each file.
+             */
             const exports = tsFiles.map(file => {
                 const fileNameWithoutExt = path.parse(file).name;
                 return `export * from './${fileNameWithoutExt}';`;
             });
 
-            // Creamos o sobrescribimos el archivo index.ts
+            // Definir la ruta del archivo index.ts / Define the index.ts file path
             const indexPath = path.join(folderPath, 'index.ts');
+            
+            // Escribir el archivo en disco / Write file to disk
             fs.writeFileSync(indexPath, exports.join('\n') + '\n', 'utf8');
 
-            vscode.window.showInformationMessage(`¡Archivo index.ts creado con ${tsFiles.length} exportaciones!`);
+            vscode.window.showInformationMessage(`Barrel created successfully with ${tsFiles.length} exports!`);
             
         } catch (error) {
-            vscode.window.showErrorMessage(`Error al generar el archivo de barril: ${error}`);
+            // Manejo de errores durante la lectura/escritura / Error handling during read/write
+            vscode.window.showErrorMessage(`Error generating barrel file: ${error}`);
         }
     });
 
+    // Añadir a las suscripciones para asegurar una limpieza correcta al desactivar
+    // Add to subscriptions to ensure proper cleanup on deactivation
     context.subscriptions.push(disposable);
 }
 
-// This method is called when your extension is deactivated
+/**
+ * Este método se llama cuando la extensión se desactiva.
+ * This method is called when your extension is deactivated.
+ */
 export function deactivate() {}

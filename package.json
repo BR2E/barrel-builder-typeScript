@@ -2,7 +2,7 @@
   "name": "barrel-builder",
   "displayName": "Barrel Builder - TypeScript",
   "description": "Create index.ts barrel files automatically",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "publisher": "br2e",
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
     "commands": [
       {
         "command": "barrel-builder.createBarrel",
-        "title": "Generar index.ts (Barrel)"
+        "title": "Generate index.ts (Barrel)"
       }
     ],
     "menus": {
