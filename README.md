@@ -38,7 +38,8 @@ There are no known issues at this time.
 
 ### 0.0.4
 * **UI Update**: Changed the command title to **"Generate index.ts (Barrel)"** for better clarity in the context menu.
-* **Documentation**: Added bilingual technical documentation (Spanish/English) following JSDoc standards in the source code.
+* **Localization**: Updated error and information messages to be bilingual (Spanish/English).
+* **Documentation**: Added bilingual technical documentation (English/Spanish) following JSDoc standards in the source code.
 
 ### 0.0.3
 * **Category Change**: Updated categories to "Programming Languages" for better discoverability.
