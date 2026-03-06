@@ -2,7 +2,7 @@
   "name": "barrel-builder",
   "displayName": "Barrel Builder - TypeScript",
   "description": "Create index.ts barrel files automatically",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "publisher": "br2e",
   "repository": {
     "type": "git",
@@ -13,6 +13,7 @@
     "vscode": "^1.107.0"
   },
   "categories": [
+    "Programming Languages",
     "Other"
   ],
   "activationEvents": [],

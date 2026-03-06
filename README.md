@@ -36,11 +36,15 @@ There are no known issues at this time.
 
 ## 📝 Release Notes
 
-### 0.0.1
-* Initial release of Barrel Builder.
-* Added support for automatic `.ts` file exporting via the Explorer context menu.
+### 0.0.3
+* **Category Change**: Updated categories to "Programming Languages" for better discoverability.
+* **Optimization**: Reduced the image size in `README.md` for faster loading in the marketplace.
 
-## 0.0.2
+### 0.0.2
 * **New Icon**: Updated the extension logo for better visibility.
 * **Compatibility**: Updated publisher casing to match Open VSX namespace.
 * **Docs**: Minor documentation improvements in README.
+
+### 0.0.1
+* Initial release of Barrel Builder.
+* Added support for automatic `.ts` file exporting via the Explorer context menu.
