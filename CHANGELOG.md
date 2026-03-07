@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.0.8] - 2026-03-07
+### 🇬🇧 English
+#### Fixed
+- **Auto-Sync Initialization**: Fixed a lazy-loading issue where background listeners required a manual command to wake up. They now activate automatically via `workspaceContains` events on workspace load.
+
+### 🇪🇸 Español
+#### Corregido
+- **Inicialización de Auto-Sincronización**: Se corrigió un problema de carga diferida donde los *listeners* en segundo plano requerían un comando manual para despertar. Ahora se activan automáticamente al cargar el espacio de trabajo mediante eventos `workspaceContains`.
+
+---
+
+---
+
 ## [0.0.6] - 2026-03-07
 ### 🇬🇧 English
 #### Added
