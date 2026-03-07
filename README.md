@@ -45,6 +45,9 @@ There are no known issues at this time.
 
 ## 📝 Release Notes
 
+### 0.0.6
+* **React/TSX Support**: Added support for `.tsx` files in both manual generation and auto-sync listeners.
+
 ### 0.0.5
 * **Auto Barrel Sync**: Added background listeners for `onCreate`, `onDelete`, and `onRename` events.
 * **Configuration System**: Implemented `barrel-builder.config.json` with bilingual comments (EN/ES) to manage auto-sync settings.
@@ -121,6 +124,9 @@ No hay problemas conocidos en este momento.
 **Nota de Seguridad:** En versiones anteriores, la extensión sobrescribía cualquier archivo `index.ts`. A partir de la **v0.0.5**, esto ya no es un problema. Si ejecutas este comando en una carpeta que *ya* tiene un `index.ts` con código personalizado o lógica distinta a la de un barril, la extensión lo detectará y abortará la operación de forma segura para evitar la pérdida de datos.
 
 ## 📝 Notas de la Versión
+
+### 0.0.6
+* **Soporte React/TSX**: Se añadió soporte para archivos `.tsx` tanto en la generación manual como en los listeners de auto-sincronización.
 
 ### 0.0.5
 * **Auto Barrel Sync**: Se añadieron *listeners* en segundo plano para los eventos `onCreate`, `onDelete` y `onRename`.

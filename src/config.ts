@@ -64,7 +64,9 @@ export function ensureConfigExists(): void {
     
     // Abort if no workspace is open
     // Abortar si no hay un espacio de trabajo abierto
-    if (!root) return; 
+    if (!root) {
+        return;
+    }
 
     const configPath = path.join(root, 'barrel-builder.config.json');
     
@@ -105,7 +107,9 @@ export function getConfig(): BarrelConfig {
     
     // If no workspace is open, return default configuration safely
     // Si no hay espacio de trabajo abierto, devolver la configuración por defecto de forma segura
-    if (!root) return DEFAULT_CONFIG;
+    if (!root) {
+        return DEFAULT_CONFIG;
+    }
 
     const configPath = path.join(root, 'barrel-builder.config.json');
     

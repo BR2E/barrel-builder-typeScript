@@ -23,7 +23,9 @@ export function isSafeToOverwrite(indexPath: string): boolean {
         
         // 1. Validation: The file is completely empty
         // 1. Validación: El archivo está completamente vacío
-        if (content === '') return true;
+        if (content === '') {
+            return true;
+        }
 
         // Split by lines and clean whitespace, ignoring empty lines
         // Dividir por líneas y limpiar espacios, ignorando líneas vacías
@@ -60,7 +62,9 @@ function getPreservedDirectoryExports(indexPath: string, folderPath: string): st
     if (fs.existsSync(indexPath)) {
         try {
             const content = fs.readFileSync(indexPath, 'utf8').trim();
-            if (content === '') return preservedExports;
+            if (content === '') {
+                return preservedExports;
+            }
 
             const lines = content.split('\n').map(line => line.trim()).filter(line => line.length > 0);
             
@@ -111,7 +115,7 @@ export function generateBarrel(folderPath: string, showMessages: boolean = false
         // 2. Filter for valid TypeScript files in the root of the folder
         // 2. Filtrar por archivos TypeScript válidos en la raíz de la carpeta
         const tsFiles = files.filter(file => 
-            file.endsWith('.ts') && 
+            (file.endsWith('.ts') || file.endsWith('.tsx')) && 
             file !== 'index.ts' && 
             !file.endsWith('.d.ts')
         );
@@ -130,7 +134,9 @@ export function generateBarrel(folderPath: string, showMessages: boolean = false
         // If the folder is effectively empty (no ts files and no preserved folders)
         // Si la carpeta está efectivamente vacía (sin archivos ts y sin carpetas conservadas)
         if (allExports.length === 0) {
-            if (showMessages) vscode.window.showInformationMessage("No valid files found to export. / No se encontraron archivos válidos para exportar.");
+            if (showMessages) {
+                vscode.window.showInformationMessage("No valid files found to export. / No se encontraron archivos válidos para exportar.");
+            }
             
             // Empty the index.ts instead of deleting it, to avoid breaking imports elsewhere
             // Vaciar el index.ts en lugar de borrarlo, para evitar romper importaciones en otros lugares
@@ -182,7 +188,9 @@ function isIgnoredPath(folderPath: string): boolean {
 export function handleFileChange(folderPath: string) {
     // 0. OPTIMIZATION: Stop immediately if the folder is in the ignored list
     // 0. OPTIMIZACIÓN: Detenerse inmediatamente si la carpeta está en la lista de ignorados
-    if (isIgnoredPath(folderPath)) return;
+    if (isIgnoredPath(folderPath)) {
+        return;
+    }
 
     const indexPath = path.join(folderPath, 'index.ts');
     

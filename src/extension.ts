@@ -71,17 +71,23 @@ export function activate(context: vscode.ExtensionContext) {
         // Read config and abort if auto-sync is disabled by the user
         // Leer configuración y abortar si el auto-sync está desactivado por el usuario
         const config = getConfig();
-        if (!config.autoSync.onCreate) return;
+        if (!config.autoSync.onCreate) {
+            return;
+        }
 
         // Ignore bulk operations (Git Pull, Folder Paste, Branch Checkout)
         // Ignorar operaciones masivas (Git Pull, Pegar carpetas enteras, Cambio de ramas)
-        if (event.files.length > 1) return; 
+        if (event.files.length > 1) {
+            return;
+        } 
 
         // Use a Set to avoid redundant updates if multiple files trigger the event in the same folder
         // Usar un Set para evitar actualizaciones redundantes si varios archivos disparan el evento en la misma carpeta
         const foldersToUpdate = new Set<string>();
         event.files.forEach(file => {
-            if (file.fsPath.endsWith('.ts')) foldersToUpdate.add(path.dirname(file.fsPath));
+            if (file.fsPath.endsWith('.ts') || file.fsPath.endsWith('.tsx')){
+                 foldersToUpdate.add(path.dirname(file.fsPath));
+            }
         });
 
         // Trigger the silent update for affected folders
@@ -92,15 +98,21 @@ export function activate(context: vscode.ExtensionContext) {
     // Listener for file deletion events / Listener para eventos de eliminación de archivos
     const onDelete = vscode.workspace.onDidDeleteFiles(event => {
         const config = getConfig();
-        if (!config.autoSync.onDelete) return;
+        if (!config.autoSync.onDelete) {
+            return;
+        }
 
         // Ignore bulk operations (Folder Deletion)
         // Ignorar operaciones masivas (Eliminación de carpetas enteras)
-        if (event.files.length > 1) return; 
+        if (event.files.length > 1) {
+            return;
+        } 
 
         const foldersToUpdate = new Set<string>();
         event.files.forEach(file => {
-            if (file.fsPath.endsWith('.ts')) foldersToUpdate.add(path.dirname(file.fsPath));
+            if (file.fsPath.endsWith('.ts') || file.fsPath.endsWith('.tsx')){
+                 foldersToUpdate.add(path.dirname(file.fsPath));
+            }
         });
         
         foldersToUpdate.forEach(folder => handleFileChange(folder));
@@ -109,24 +121,31 @@ export function activate(context: vscode.ExtensionContext) {
     // Listener for file renaming events / Listener para eventos de renombrado de archivos
     const onRename = vscode.workspace.onDidRenameFiles(event => {
         const config = getConfig();
-        if (!config.autoSync.onRename) return;
+        if (!config.autoSync.onRename) {
+            return;
+        }
 
         // Ignore bulk operations (Mass Rename, Folder Move)
         // Ignorar operaciones masivas (Renombrado masivo, Movimiento de carpetas enteras)
-        if (event.files.length > 1) return; 
+        if (event.files.length > 1) {
+            return;
+        } 
 
         const foldersToUpdate = new Set<string>();
         
         event.files.forEach(file => {
+            const oldIsTarget = file.oldUri.fsPath.endsWith('.ts') || file.oldUri.fsPath.endsWith('.tsx');
+            const newIsTarget = file.newUri.fsPath.endsWith('.ts') || file.newUri.fsPath.endsWith('.tsx');
+
             // Check old path: If the old file was .ts, we must update its origin folder to remove the dead export
             // Revisar ruta antigua: Si era .ts, debemos actualizar su carpeta de origen para borrar el export roto
-            if (file.oldUri.fsPath.endsWith('.ts')) {
+            if (oldIsTarget) {
                 foldersToUpdate.add(path.dirname(file.oldUri.fsPath));
             }
             
             // Check new path: If the new file is .ts, we must update its destination folder to add the new export
             // Revisar ruta nueva: Si es .ts, debemos actualizar su carpeta de destino para añadir el nuevo export
-            if (file.newUri.fsPath.endsWith('.ts')) {
+            if (newIsTarget) {
                 foldersToUpdate.add(path.dirname(file.newUri.fsPath));
             }
         });
