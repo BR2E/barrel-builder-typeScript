@@ -4,10 +4,6 @@
 
 # Barrel Builder
 
-**New in v0.0.6:** Added full **React / TSX Support**. The extension now recognizes and exports `.tsx` files automatically, both in manual generation and auto-sync mode.
-
-**Introduced in v0.0.5:** **Intelligent Auto Barrel Sync**. Keep your exports up to date automatically as you work. Manage your preferences with the new `barrel-builder.config.json`, giving you full control over when and how your barrels are synchronized.
-
 **Barrel Builder** is a practical and lightweight extension for Antigravity / VS Code designed to speed up your TypeScript workflow. It allows you to automatically generate barrel files (`index.ts`) containing exports for all the modules within a specific folder.
 
 ![Barrel Builder Demo](images/barrel-builder1.png)
@@ -55,6 +51,9 @@ There are no known issues at this time.
 
 ## 📝 Release Notes
 
+### 0.0.8
+* **Auto-Sync Initialization Fix**: Resolved a lazy-loading issue. Auto-sync listeners now activate automatically in the background as soon as you open a TypeScript project, without needing to run the manual command first.
+
 ### 0.0.7
 * **Marketplace Optimization**: Added a formal `CHANGELOG.md` file to properly display the release history in the extension's "Changes" tab.
 
@@ -96,10 +95,6 @@ There are no known issues at this time.
 </div>
 
 # Barrel Builder Español
-
-**Nuevo en v0.0.6:** Se añadió soporte completo para **React / TSX**. La extensión ahora reconoce y exporta archivos `.tsx` automáticamente, tanto en la generación manual como en el modo de auto-sincronización.
-
-**Introducido en v0.0.5:** **Auto-Sincronización Inteligente de Barriles**. Mantén tus exportaciones actualizadas automáticamente mientras trabajas. Gestiona tus preferencias con el nuevo archivo `barrel-builder.config.json`, que te otorga control total sobre cuándo y cómo se sincronizan tus archivos de barril.
 
 **Barrel Builder** es una extensión práctica y ligera para Antigravity / VS Code diseñada para acelerar tu flujo de trabajo en TypeScript. Te permite generar automáticamente archivos de barril (`index.ts`) que contienen las exportaciones de todos los módulos dentro de una carpeta específica.
 
@@ -147,6 +142,9 @@ No hay problemas conocidos en este momento.
 **Nota de Seguridad:** En versiones anteriores, la extensión sobrescribía cualquier archivo `index.ts`. A partir de la **v0.0.5**, esto ya no es un problema. Si ejecutas este comando en una carpeta que *ya* tiene un `index.ts` con código personalizado o lógica distinta a la de un barril, la extensión lo detectará y abortará la operación de forma segura para evitar la pérdida de datos.
 
 ## 📝 Notas de la Versión
+
+### 0.0.8
+* **Corrección de Inicialización (Auto-Sync)**: Se resolvió un problema de carga diferida (lazy-loading). Los *listeners* de auto-sincronización ahora se activan automáticamente en segundo plano en cuanto abres un proyecto TypeScript, sin necesidad de ejecutar el comando manual previamente.
 
 ### 0.0.7
 * **Optimización para el Marketplace**: Se añadió un archivo `CHANGELOG.md` formal para mostrar correctamente el historial de versiones en la pestaña "Changes" de la extensión.
