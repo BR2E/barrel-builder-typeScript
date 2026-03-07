@@ -1,10 +1,12 @@
 <div align="right">
-  <a href="#-español">🇪🇸 Leer en Español</a> | 🇬🇧 Read in English
+  <a href="#barrel-builder-español">🇪🇸 Leer en Español</a> | 🇬🇧 Read in English
 </div>
 
 # Barrel Builder
 
-**New in v0.0.5:** Introducing **Intelligent Auto Barrel Sync**. Keep your exports up to date automatically as you work. Manage your preferences with the new `barrel-builder.config.json`, giving you full control over when and how your barrels are synchronized.
+**New in v0.0.6:** Added full **React / TSX Support**. The extension now recognizes and exports `.tsx` files automatically, both in manual generation and auto-sync mode.
+
+**Introduced in v0.0.5:** **Intelligent Auto Barrel Sync**. Keep your exports up to date automatically as you work. Manage your preferences with the new `barrel-builder.config.json`, giving you full control over when and how your barrels are synchronized.
 
 **Barrel Builder** is a practical and lightweight extension for Antigravity / VS Code designed to speed up your TypeScript workflow. It allows you to automatically generate barrel files (`index.ts`) containing exports for all the modules within a specific folder.
 
@@ -13,10 +15,11 @@
 ## ✨ Features
 
 * **Fast & Accessible:** Adds a convenient command directly to the File Explorer's context menu (right-click).
-* **Intelligent Auto-Sync (New):** Automatically updates your `index.ts` when you create, delete, or rename `.ts` files.
-* **Custom Configuration (New):** Generates a `barrel-builder.config.json` file in your workspace root (with bilingual EN/ES comments) to toggle sync features on or off.
-* **Safe & Non-Destructive (New):** The extension reads existing `index.ts` files before updating. It will **not** overwrite files containing custom logic, and it intelligently preserves your manual exports pointing to subdirectories.
-* **Smart Filtering:** Automatically scans the folder and only considers `.ts` files for your exports, while ignoring the `index.ts` file itself (to prevent infinite loops) and type declaration files (`.d.ts`).
+* **React/TSX Ready (New):** Fully supports `.tsx` files for seamless integration with React, Next.js, and SolidJS projects.
+* **Intelligent Auto-Sync:** Automatically updates your `index.ts` when you create, delete, or rename `.ts` or `.tsx` files.
+* **Custom Configuration:** Generates a `barrel-builder.config.json` file in your workspace root (with bilingual EN/ES comments) to toggle sync features on or off.
+* **Safe & Non-Destructive:** The extension reads existing `index.ts` files before updating. It will **not** overwrite files containing custom logic, and it intelligently preserves your manual exports pointing to subdirectories.
+* **Smart Filtering:** Automatically scans the folder and only considers `.ts/.tsx` files for your exports, while ignoring the `index.ts` file itself (to prevent infinite loops) and type declaration files (`.d.ts`).
 * **Performance Optimized:** Automatically ignores bulk operations (like Git pulls, branch checkouts, or mass pasting) to maintain editor performance and stability.
 
 ## 🚀 Usage
@@ -25,10 +28,17 @@ Using Barrel Builder is extremely simple and integrates naturally into your dail
 
 1. Open your TypeScript project in the editor.
 2. Navigate to the **Explorer** view in the left sidebar.
-3. Locate any folder containing your TypeScript files (for example, the `src` folder or a specific `components` folder).
+3. Locate any folder containing your TypeScript/TSX files.
 4. **Right-click** directly on the folder name to open the context menu.
 5. Look for and click the **"Generate index.ts (Barrel)"** option.
-6. **First Run Setup:** A `barrel-builder.config.json` file will be created in your root folder. Open it and set the desired events (`onCreate`, `onDelete`, `onRename`) to `true` to enable automatic synchronization.
+6. **First Run Setup:** A `barrel-builder.config.json` file will be created in your root folder. Set the desired events to `true` to enable automatic synchronization:
+
+| Property | Default | Description |
+| :--- | :--- | :--- |
+| `onCreate` | `false` | Automatically adds the export when a new `.ts` or `.tsx` file is created. |
+| `onDelete` | `false` | Automatically removes the export when a file is deleted. |
+| `onRename` | `false` | Updates the export name when a file is renamed or moved. |
+
 7. **Done!** An `index.ts` file will be instantly generated inside that folder containing clean `export * from './filename';` statements. If auto-sync is enabled, it will update automatically from now on.
 
 *Note: You can also use this command inside nested directories.*
@@ -82,9 +92,11 @@ There are no known issues at this time.
   <a href="#barrel-builder">🇬🇧 Read in English</a> | 🇪🇸 Leer en Español
 </div>
 
-# 🇪🇸 Español
+# Barrel Builder Español
 
-**Nuevo en v0.0.5:** Presentamos **Auto-Sincronización Inteligente de Barriles**. Mantén tus exportaciones actualizadas automáticamente mientras trabajas. Gestiona tus preferencias con el nuevo archivo `barrel-builder.config.json`, que te otorga control total sobre cuándo y cómo se sincronizan tus archivos de barril.
+**Nuevo en v0.0.6:** Se añadió soporte completo para **React / TSX**. La extensión ahora reconoce y exporta archivos `.tsx` automáticamente, tanto en la generación manual como en el modo de auto-sincronización.
+
+**Introducido en v0.0.5:** **Auto-Sincronización Inteligente de Barriles**. Mantén tus exportaciones actualizadas automáticamente mientras trabajas. Gestiona tus preferencias con el nuevo archivo `barrel-builder.config.json`, que te otorga control total sobre cuándo y cómo se sincronizan tus archivos de barril.
 
 **Barrel Builder** es una extensión práctica y ligera para Antigravity / VS Code diseñada para acelerar tu flujo de trabajo en TypeScript. Te permite generar automáticamente archivos de barril (`index.ts`) que contienen las exportaciones de todos los módulos dentro de una carpeta específica.
 
@@ -93,10 +105,11 @@ There are no known issues at this time.
 ## ✨ Características
 
 * **Rápido y Accesible:** Añade un práctico comando directamente al menú contextual del Explorador de Archivos (clic derecho).
-* **Auto-Sincronización Inteligente (Nuevo):** Actualiza automáticamente tu archivo `index.ts` cuando creas, eliminas o renombras archivos `.ts`.
-* **Configuración Personalizada (Nuevo):** Genera un archivo `barrel-builder.config.json` en la raíz de tu proyecto (con comentarios bilingües EN/ES) para activar o desactivar las funciones de sincronización.
-* **Seguro y No Destructivo (Nuevo):** La extensión lee los archivos `index.ts` existentes antes de actualizarlos. **No** sobrescribirá archivos que contengan lógica personalizada y conservará de manera inteligente tus exportaciones manuales que apunten a subdirectorios.
-* **Filtrado Inteligente:** Escanea la carpeta y solo considera archivos `.ts` para las exportaciones, ignorando el propio archivo `index.ts` (para evitar bucles infinitos) y los archivos de declaración de tipos (`.d.ts`).
+* **Preparado para React/TSX (Nuevo):** Soporte total para archivos `.tsx`, ideal para proyectos con React, Next.js y SolidJS.
+* **Auto-Sincronización Inteligente:** Actualiza automáticamente tu archivo `index.ts` cuando creas, eliminas o renombras archivos `.ts` o `.tsx`.
+* **Configuración Personalizada:** Genera un archivo `barrel-builder.config.json` en la raíz de tu proyecto (con comentarios bilingües EN/ES) para activar o desactivar las funciones de sincronización.
+* **Seguro y No Destructivo:** La extensión lee los archivos `index.ts` existentes antes de actualizarlos. **No** sobrescribirá archivos que contengan lógica personalizada y conservará de manera inteligente tus exportaciones manuales que apunten a subdirectorios.
+* **Filtrado Inteligente:** Escanea la carpeta y solo considera archivos `.ts/.tsx` para las exportaciones, ignorando el propio archivo `index.ts` (para evitar bucles infinitos) y los archivos de declaración de tipos (`.d.ts`).
 * **Rendimiento Optimizado:** Ignora automáticamente operaciones masivas (como `git pull`, cambios de rama o pegado masivo) para mantener el rendimiento y la estabilidad de tu editor.
 
 ## 🚀 Uso
@@ -105,10 +118,17 @@ Usar Barrel Builder es extremadamente sencillo y se integra de forma natural en 
 
 1. Abre tu proyecto TypeScript en el editor.
 2. Navega a la vista del **Explorador** en la barra lateral izquierda.
-3. Localiza cualquier carpeta que contenga tus archivos TypeScript (por ejemplo, la carpeta `src` o una de `components`).
+3. Localiza cualquier carpeta que contenga tus archivos TypeScript/TSX.
 4. Haz **clic derecho** directamente sobre el nombre de la carpeta para abrir el menú contextual.
 5. Busca y selecciona la opción **"Generate index.ts (Barrel)"**.
-6. **Configuración Inicial:** Se creará un archivo `barrel-builder.config.json` en tu carpeta raíz. Ábrelo y cambia los eventos deseados (`onCreate`, `onDelete`, `onRename`) a `true` para activar la sincronización automática.
+6. **Configuración Inicial:** Se creará un archivo `barrel-builder.config.json` en tu carpeta raíz. Configura las propiedades de `autoSync` a `true` para activar la sincronización:
+
+| Propiedad | Por defecto | Descripción |
+| :--- | :--- | :--- |
+| `onCreate` | `false` | Añade automáticamente la exportación al crear un archivo `.ts` o `.tsx`. |
+| `onDelete` | `false` | Elimina automáticamente la exportación al borrar un archivo. |
+| `onRename` | `false` | Actualiza la exportación al renombrar o mover un archivo. |
+
 7. **¡Listo!** Se generará instantáneamente un archivo `index.ts` dentro de esa carpeta con las declaraciones limpias `export * from './nombre_del_archivo';`. Si la auto-sincronización está activa, se actualizará automáticamente a partir de ahora.
 
 *Nota: También puedes usar este comando dentro de directorios anidados (subcarpetas).*
