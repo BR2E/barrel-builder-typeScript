@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.0.9] - 2026-03-07
+### 🇬🇧 English
+#### Added
+- **Auto-Ignore Configuration**: Introduced the `addToGitignore` setting (enabled by default) in `barrel-builder.config.json`. The extension now automatically detects the workspace's `.gitignore` file and appends the configuration file to it, preventing accidental commits of local preferences.
+
+### 🇪🇸 Español
+#### Añadido
+- **Configuración Auto-Ignorada**: Se introdujo la configuración `addToGitignore` (habilitada por defecto) en `barrel-builder.config.json`. La extensión ahora detecta automáticamente el archivo `.gitignore` del espacio de trabajo y le agrega el archivo de configuración, evitando *commits* accidentales de las preferencias locales.
+
+---
+
+---
+
 ## [0.0.8] - 2026-03-07
 ### 🇬🇧 English
 #### Fixed

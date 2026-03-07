@@ -20,7 +20,11 @@ export interface BarrelConfig {
         onDelete: boolean;
         /** Update on file rename / Actualizar al renombrar archivo */
         onRename: boolean;
-    }
+    },
+    /** * Indicates if the config file should be added to .gitignore automatically.
+     * Indica si el archivo de configuración debe agregarse a .gitignore automáticamente. 
+     */
+    addToGitignore: boolean;
 }
 
 /**
@@ -32,7 +36,8 @@ export const DEFAULT_CONFIG: BarrelConfig = {
         onCreate: false,
         onDelete: false,
         onRename: false
-    }
+    },
+    addToGitignore: true
 };
 
 /**
@@ -50,14 +55,58 @@ export function getWorkspaceRoot(): string | undefined {
     if (workspaceFolders && workspaceFolders.length > 0) {
         return workspaceFolders[0].uri.fsPath;
     }
+
     return undefined;
+}
+
+/**
+ * Checks for a .gitignore file and appends the config file name if necessary.
+ * Revisa si hay un archivo .gitignore y le agrega el nombre del archivo de config si es necesario.
+ * @param {BarrelConfig} config The current user configuration / La configuración actual del usuario.
+ */
+export function updateGitignoreIfNeeded(config: BarrelConfig): void {
+    // Abort if the user configured it to false
+    // Abortar si el usuario lo configuró como falso
+    if (!config.addToGitignore) {
+        return;
+    }
+
+    const root = getWorkspaceRoot();
+    if (!root) {
+        return;
+    }
+
+    const gitignorePath = path.join(root, '.gitignore');
+    const configFileName = 'barrel-builder.config.json';
+
+    // Validate that .gitignore exists before trying to modify it
+    // Validar que .gitignore exista antes de intentar modificarlo
+    if (fs.existsSync(gitignorePath)) {
+        try {
+            const gitignoreContent = fs.readFileSync(gitignorePath, 'utf8');
+            
+            // Append only if the file is not already ignored
+            // Agregar solo si el archivo no está siendo ignorado ya
+            if (!gitignoreContent.includes(configFileName)) {
+                // Check if we need a newline before appending
+                // Verificar si necesitamos un salto de línea antes de agregar
+                const prefix = gitignoreContent.length > 0 && !gitignoreContent.endsWith('\n') ? '\n' : '';
+                fs.appendFileSync(gitignorePath, `${prefix}${configFileName}\n`, 'utf8');
+                console.log(`Added ${configFileName} to .gitignore`);
+            }
+        } catch (error) {
+            console.error('Error updating .gitignore / Error al actualizar .gitignore:', error);
+        }
+    }
 }
 
 /**
  * Ensures the configuration file exists in the workspace root.
  * If it doesn't exist, it creates one with a bilingual commented template.
- * * Asegura que el archivo de configuración exista en la raíz del espacio de trabajo.
+ * If it does exist, it validates and adds any missing properties.
+ * Asegura que el archivo de configuración exista en la raíz del espacio de trabajo.
  * Si no existe, crea uno con una plantilla comentada de forma bilingüe.
+ * Si existe, valida y agrega las propiedades faltantes.
  */
 export function ensureConfigExists(): void {
     const root = getWorkspaceRoot();
@@ -77,12 +126,13 @@ export function ensureConfigExists(): void {
         // Template String with comments (JSON standard doesn't support comments natively)
         // Cadena de texto con comentarios (El estándar JSON no soporta comentarios nativamente)
         const configTemplate = `{
-    "autoSync": {
-        "onCreate": false,
-        "onDelete": false,
-        "onRename": false
-    }
-}`;
+            "autoSync": {
+                "onCreate": false,
+                "onDelete": false,
+                "onRename": false
+            },
+            "addToGitignore": true
+        }`;
 
         try {
             // Write to disk synchronously using utf8 encoding
@@ -92,7 +142,53 @@ export function ensureConfigExists(): void {
         } catch (error) {
             console.error('Error creating config file / Error al crear el archivo de configuración:', error);
         }
+    } else {
+        // If the file exists, validate it has all properties
+        // Si el archivo existe, validar que tenga todas las propiedades
+        try {
+            const content = fs.readFileSync(configPath, 'utf8');
+            const cleanContent = content.replace(/\/\/.*$/gm, '');
+            const parsed = JSON.parse(cleanContent);
+            let isModified = false;
+
+            // Validate autoSync block / Validar bloque autoSync
+            if (!parsed.autoSync) {
+                parsed.autoSync = { ...DEFAULT_CONFIG.autoSync };
+                isModified = true;
+            } else {
+                // Check individual autoSync properties / Revisar propiedades individuales de autoSync
+                const syncKeys: (keyof BarrelConfig['autoSync'])[] = ['onCreate', 'onDelete', 'onRename'];
+                for (const key of syncKeys) {
+                    if (parsed.autoSync[key] === undefined) {
+                        parsed.autoSync[key] = DEFAULT_CONFIG.autoSync[key];
+                        isModified = true;
+                    }
+                }
+            }
+
+            // Validate addToGitignore / Validar addToGitignore
+            if (parsed.addToGitignore === undefined) {
+                parsed.addToGitignore = DEFAULT_CONFIG.addToGitignore;
+                isModified = true;
+            }
+
+            // Save only if modifications were made / Guardar solo si se hicieron modificaciones
+            if (isModified) {
+                // Using 4 spaces for indentation to match the template
+                // Usando 4 espacios de indentación para coincidir con la plantilla
+                fs.writeFileSync(configPath, JSON.stringify(parsed, null, 4), 'utf8');
+                console.log('Updated barrel-builder.config.json with missing properties / Se actualizaron propiedades faltantes.');
+            }
+
+        } catch (error) {
+            console.error('Error validating existing config file / Error al validar el archivo de configuración existente:', error);
+        }
     }
+
+    // After ensuring the config exists and is complete, check and update .gitignore
+    // Después de asegurar que la configuración existe y está completa, revisar y actualizar el .gitignore
+    const currentConfig = getConfig();
+    updateGitignoreIfNeeded(currentConfig);
 }
 
 /**
@@ -137,7 +233,8 @@ export function getConfig(): BarrelConfig {
                 autoSync: {
                     ...DEFAULT_CONFIG.autoSync,
                     ...(parsed.autoSync || {})
-                }
+                },
+                addToGitignore: parsed.addToGitignore !== undefined ? parsed.addToGitignore : DEFAULT_CONFIG.addToGitignore
             };
         } catch (error) {
             // If JSON is totally malformed (e.g., missing a comma), catch the error and return defaults

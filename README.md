@@ -34,6 +34,7 @@ Using Barrel Builder is extremely simple and integrates naturally into your dail
 | `onCreate` | `false` | Automatically adds the export when a new `.ts` or `.tsx` file is created. |
 | `onDelete` | `false` | Automatically removes the export when a file is deleted. |
 | `onRename` | `false` | Updates the export name when a file is renamed or moved. |
+| `addToGitignore` | `true` | Automatically appends the configuration file to the workspace's `.gitignore`. |
 
 7. **Done!** An `index.ts` file will be instantly generated inside that folder containing clean `export * from './filename';` statements. If auto-sync is enabled, it will update automatically from now on.
 
@@ -50,6 +51,9 @@ There are no known issues at this time.
 **Safety Note:** In previous versions, the extension would overwrite any `index.ts` file. As of **v0.0.5**, this is no longer an issue. If you run this command on a folder that *already* has an `index.ts` containing custom code or non-barrel logic, the extension will detect it and safely abort the operation to prevent data loss.
 
 ## 📝 Release Notes
+
+### 0.0.9
+* **Auto-Ignore Configuration**: Added a new `addToGitignore` setting (enabled by default). The extension now automatically detects your workspace's `.gitignore` file and adds `barrel-builder.config.json` to it, preventing accidental commits of your local preferences.
 
 ### 0.0.8
 * **Auto-Sync Initialization Fix**: Resolved a lazy-loading issue. Auto-sync listeners now activate automatically in the background as soon as you open a TypeScript project, without needing to run the manual command first.
@@ -126,6 +130,7 @@ Usar Barrel Builder es extremadamente sencillo y se integra de forma natural en 
 | `onCreate` | `false` | Añade automáticamente la exportación al crear un archivo `.ts` o `.tsx`. |
 | `onDelete` | `false` | Elimina automáticamente la exportación al borrar un archivo. |
 | `onRename` | `false` | Actualiza la exportación al renombrar o mover un archivo. |
+| `addToGitignore` | `true` | Agrega automáticamente el archivo de configuración al `.gitignore` del espacio de trabajo. |
 
 7. **¡Listo!** Se generará instantáneamente un archivo `index.ts` dentro de esa carpeta con las declaraciones limpias `export * from './nombre_del_archivo';`. Si la auto-sincronización está activa, se actualizará automáticamente a partir de ahora.
 
@@ -142,6 +147,9 @@ No hay problemas conocidos en este momento.
 **Nota de Seguridad:** En versiones anteriores, la extensión sobrescribía cualquier archivo `index.ts`. A partir de la **v0.0.5**, esto ya no es un problema. Si ejecutas este comando en una carpeta que *ya* tiene un `index.ts` con código personalizado o lógica distinta a la de un barril, la extensión lo detectará y abortará la operación de forma segura para evitar la pérdida de datos.
 
 ## 📝 Notas de la Versión
+
+### 0.0.9
+* **Configuración Auto-Ignorada**: Se agregó una nueva configuración `addToGitignore` (habilitada por defecto). La extensión ahora detecta automáticamente el archivo `.gitignore` de tu espacio de trabajo y le agrega `barrel-builder.config.json`, evitando *commits* accidentales de tus preferencias locales.
 
 ### 0.0.8
 * **Corrección de Inicialización (Auto-Sync)**: Se resolvió un problema de carga diferida (lazy-loading). Los *listeners* de auto-sincronización ahora se activan automáticamente en segundo plano en cuanto abres un proyecto TypeScript, sin necesidad de ejecutar el comando manual previamente.
