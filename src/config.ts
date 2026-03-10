@@ -122,17 +122,16 @@ export function ensureConfigExists(): void {
     // Only create the file if it does not already exist
     // Solo crear el archivo si este no existe previamente
     if (!fs.existsSync(configPath)) {
-        
-        // Template String with comments (JSON standard doesn't support comments natively)
-        // Cadena de texto con comentarios (El estándar JSON no soporta comentarios nativamente)
-        const configTemplate = `{
-            "autoSync": {
-                "onCreate": false,
-                "onDelete": false,
-                "onRename": false
+        const initialConfig = {
+            autoSync: {
+                onCreate: false,
+                onDelete: false,
+                onRename: false
             },
-            "addToGitignore": true
-        }`;
+            addToGitignore: true
+        };
+
+        const configTemplate = JSON.stringify(initialConfig, null, 4);
 
         try {
             // Write to disk synchronously using utf8 encoding
@@ -157,7 +156,7 @@ export function ensureConfigExists(): void {
                 isModified = true;
             } else {
                 // Check individual autoSync properties / Revisar propiedades individuales de autoSync
-                const syncKeys: (keyof BarrelConfig['autoSync'])[] = ['onCreate', 'onDelete', 'onRename'];
+                const syncKeys: (keyof typeof DEFAULT_CONFIG.autoSync)[] = ['onCreate', 'onDelete', 'onRename'];
                 for (const key of syncKeys) {
                     if (parsed.autoSync[key] === undefined) {
                         parsed.autoSync[key] = DEFAULT_CONFIG.autoSync[key];

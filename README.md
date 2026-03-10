@@ -52,6 +52,11 @@ There are no known issues at this time.
 
 ## 📝 Release Notes
 
+### 0.1.0
+* **Enhanced Export Deduplication**: Improved the barrel generation logic to automatically filter out duplicate files with the same base name but different extensions (e.g., ignoring `utils.tsx` if `utils.ts` is already exported), ensuring cleaner `index.ts` files.
+* **Configuration Formatting Fix**: Fixed an issue where the auto-generated `barrel-builder.config.json` file contained unwanted leading spaces by switching to structured JSON serialization.
+* **Asset Attribution**: Added proper MIT License attribution for AI-generated images used in the extension.
+
 ### 0.0.9
 * **Auto-Ignore Configuration**: Added a new `addToGitignore` setting (enabled by default). The extension now automatically detects your workspace's `.gitignore` file and adds `barrel-builder.config.json` to it, preventing accidental commits of your local preferences.
 
@@ -147,6 +152,12 @@ No hay problemas conocidos en este momento.
 **Nota de Seguridad:** En versiones anteriores, la extensión sobrescribía cualquier archivo `index.ts`. A partir de la **v0.0.5**, esto ya no es un problema. Si ejecutas este comando en una carpeta que *ya* tiene un `index.ts` con código personalizado o lógica distinta a la de un barril, la extensión lo detectará y abortará la operación de forma segura para evitar la pérdida de datos.
 
 ## 📝 Notas de la Versión
+
+### 0.1.0
+* **Mejora en la deduplicación de exports**: Se mejoró la lógica de generación de *barrels* para filtrar automáticamente archivos duplicados con el mismo nombre base pero diferente extensión (por ejemplo, se ignora `utils.tsx` si `utils.ts` ya está exportado), lo que genera archivos `index.ts` más limpios.
+* **Corrección en el formato de configuración**: Se solucionó un problema donde el archivo `barrel-builder.config.json` generado automáticamente contenía espacios iniciales no deseados, cambiando a una serialización estructurada de JSON.
+* **Atribución de assets**: Se añadió la atribución correspondiente bajo licencia MIT para las imágenes generadas con IA utilizadas en la extensión.
+
 
 ### 0.0.9
 * **Configuración Auto-Ignorada**: Se agregó una nueva configuración `addToGitignore` (habilitada por defecto). La extensión ahora detecta automáticamente el archivo `.gitignore` de tu espacio de trabajo y le agrega `barrel-builder.config.json`, evitando *commits* accidentales de tus preferencias locales.

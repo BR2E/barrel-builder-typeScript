@@ -117,12 +117,25 @@ export function generateBarrel(folderPath: string, showMessages: boolean = false
         const tsFiles = files.filter(file => 
             (file.endsWith('.ts') || file.endsWith('.tsx')) && 
             file !== 'index.ts' && 
+            file !== 'index.tsx' &&
             !file.endsWith('.d.ts')
         );
 
+        // Filter to avoid duplicate files with the same name but different extensions
+        // Filtro para evitar archivos repetidos con el mismo nombre pero diferente extensión (ej. utils.ts y utils.tsx)
+        const uniqueBaseNames = new Set<string>();
+        const uniqueTsFiles = tsFiles.filter(file => {
+            const baseName = path.parse(file).name;
+            if (uniqueBaseNames.has(baseName)) {
+                return false; 
+            }
+            uniqueBaseNames.add(baseName);
+            return true;
+        });
+
         // 3. Generate standard file export strings
         // 3. Generar cadenas de exportación de archivos estándar
-        const fileExports = tsFiles.map(file => {
+        const fileExports = uniqueTsFiles.map(file => {
             const fileNameWithoutExt = path.parse(file).name;
             return `export * from './${fileNameWithoutExt}';`;
         });
@@ -144,8 +157,8 @@ export function generateBarrel(folderPath: string, showMessages: boolean = false
             return;
         }
 
-        // 5. Automatic sorting and deduplication using a Set
-        // 5. Ordenamiento automático y deduplicación usando un Set
+        // 5. Automatic sorting and deduplication using a Set (acts as a second safety net for strings)
+        // 5. Ordenamiento automático y deduplicación usando un Set (actúa como segunda red de seguridad para las cadenas)
         const uniqueExports = Array.from(new Set(allExports)).sort();
         
         // 6. Write the final content to the index.ts file

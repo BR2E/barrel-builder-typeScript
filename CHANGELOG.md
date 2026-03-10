@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.1.0] - 2026-03-09
+### 🇬🇧 English
+#### Added
+- **Asset Attribution**: Added proper MIT License attribution for AI-generated images used in the extension.
+
+#### Changed
+- **Enhanced Export Deduplication**: Improved the barrel generation logic to automatically filter out duplicate files with the same base name but different extensions (e.g., ignoring `utils.tsx` if `utils.ts` is already exported), ensuring cleaner `index.ts` files.
+
+#### Fixed
+- **Configuration Formatting**: Fixed an issue where the auto-generated `barrel-builder.config.json` file contained unwanted leading spaces by switching to structured JSON serialization.
+
+### 🇪🇸 Español
+#### Añadido
+- **Atribución de Recursos**: Se agregó la atribución adecuada bajo la Licencia MIT para las imágenes generadas por IA utilizadas en la extensión.
+
+#### Cambiado
+- **Deduplicación de Exportaciones Mejorada**: Se mejoró la lógica de generación de *barrels* para filtrar automáticamente archivos duplicados con el mismo nombre base pero diferente extensión (ej. ignorando `utils.tsx` si `utils.ts` ya está exportado), asegurando archivos `index.ts` más limpios.
+
+#### Corregido
+- **Formato de Configuración**: Se solucionó un problema donde el archivo autogenerado `barrel-builder.config.json` contenía espacios iniciales no deseados, cambiando a una serialización estructurada de JSON.
+
+---
+
+---
+
 ## [0.0.9] - 2026-03-07
 ### 🇬🇧 English
 #### Added
