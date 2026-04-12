@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.1.1] - 2026-04-12
+### 🇬🇧 English
+#### Added
+- **Marketplace Keywords**: Added a comprehensive `keywords` section in `package.json` to improve extension discoverability and search ranking in the VS Code Marketplace.
+
+#### Changed
+- **Package Manager Migration**: Migrated from `npm` to `pnpm` for faster, more efficient dependency management and improved build consistency.
+
+### 🇪🇸 Español
+#### Añadido
+- **Palabras Clave (Keywords)**: Se agregó la sección `keywords` en el archivo `package.json` para mejorar la visibilidad y el posicionamiento de la extensión en el marketplace de VS Code.
+
+#### Cambiado
+- **Migración de Gestor de Paquetes**: Se migró de `npm` a `pnpm` para una gestión de dependencias más rápida, eficiente y consistente en los builds.
+
+---
+
 ## [0.1.0] - 2026-03-09
 ### 🇬🇧 English
 #### Added
